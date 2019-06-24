@@ -13,7 +13,8 @@ Question [default-value]: {user-input} # user-input is hidden if password arg is
 
 # How to use ?
 Copy-paste the script where you want to use it and source it in the bash you want (```. utils.sh```)
-P.s: . is used rather than source because it works in bash & sh.
+
+P.s: ```.``` is used rather than source because it works in bash & sh.
 
 ```bash
 # My first question: {user-input}

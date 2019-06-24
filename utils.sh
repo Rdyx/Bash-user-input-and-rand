@@ -14,12 +14,9 @@ function DEFAULT_VALUE () {
 
 # SPECIAL INPUT STATUS (such as default value and/or password)
 function SPECIAL_STATUS () {
-    # If field is checked to have a default value and is password
-    local USER_DEFAULT_INPUT=$1 # Get default input value
-    if [[ $IS_DEFAULT = 0 ]] && [[ $IS_PASSWORD = 0 ]]; then
-        USER_INPUT=$(DEFAULT_VALUE $QUESTION $USER_DEFAULT_INPUT) # Ask the user to enter a string or leave it empty to keep default value
-
-    elif [[ $IS_DEFAULT = 0 ]]; then
+    if [[ $IS_DEFAULT = 0 ]]; then
+        # If field is checked to have a default value and is password
+        local USER_DEFAULT_INPUT=$1 # Get default input value
         USER_INPUT=$(DEFAULT_VALUE $QUESTION $USER_DEFAULT_INPUT) # Ask the user to enter a string or leave it empty to keep default value
 
     elif [[ $IS_PASSWORD = 0 ]]; then
