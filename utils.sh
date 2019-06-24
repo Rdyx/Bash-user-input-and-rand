@@ -1,6 +1,10 @@
 # IN BASH, CONDITIONS RETURN TRUE=0 AND FALSE=1
 
 ##### UTILS #####
+function LINE_RETURN_PWD () {
+    if [[ $IS_PASSWORD = 0 ]]; then echo '' >&2; fi
+}
+
 # SET DEFAULT VALUE FOR USER INPUT
 function DEFAULT_VALUE () {
     if [[ $IS_PASSWORD = 0 ]]; then SILENCE_INPUT='-s'; fi
@@ -8,16 +12,14 @@ function DEFAULT_VALUE () {
     read -p "$QUESTION [$DEFAULT_INPUT_VALUE] (Leave blank to use default value): " $SILENCE_INPUT USER_INPUT # Ask the user to enter a string and show a default input value in []
     USER_INPUT=${USER_INPUT:-$DEFAULT_INPUT_VALUE} # Is user doesn't input, assign DEFAULT_INPUT_VALUE
 
-    if [[ $IS_PASSWORD = 0 ]]; then echo '' >&2; fi 
+    LINE_RETURN_PWD
     echo $USER_INPUT # Returning value
 }
 
 # SPECIAL INPUT STATUS (such as default value and/or password)
 function SPECIAL_STATUS () {
     if [[ $IS_DEFAULT = 0 ]]; then
-        # If field is checked to have a default value and is password
-        local USER_DEFAULT_INPUT=$1 # Get default input value
-        USER_INPUT=$(DEFAULT_VALUE $QUESTION $USER_DEFAULT_INPUT) # Ask the user to enter a string or leave it empty to keep default value
+        USER_INPUT=$(DEFAULT_VALUE $QUESTION $DEFAULT_INPUT_VALUE) # Ask the user to enter a string or leave it empty to keep default value
 
     elif [[ $IS_PASSWORD = 0 ]]; then
         read -p "$QUESTION: " -s USER_INPUT # Ask the user to enter a password (-s to hide input)
@@ -47,6 +49,7 @@ function REQUIRED_FIELD () {
     # If field is required, ask user untill he force stops or he enters a value
     while  [[ -z $USER_INPUT ]] # While string is empty...
     do
+        LINE_RETURN_PWD
         echo "This field is required." >&2 # Ask the user to enter a valid string (>&2 if for direct echo output)
         USER_INPUT=$(SPECIAL_STATUS $DEFAULT_INPUT_VALUE $IS_DEFAULT $IS_PASSWORD)
     done 
